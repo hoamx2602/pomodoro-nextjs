@@ -5,7 +5,11 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-const MainTimer: React.FC = () => {
+interface MainTimerProps {
+  setMainColor: (color: string) => void;
+}
+
+const MainTimer = ({ setMainColor }: MainTimerProps) => {
   const [time, setTime] = useState<number>(900); // Default to 15 minutes
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [mode, setMode] = useState<"Pomodoro" | "Short Break" | "Long Break">(
@@ -40,10 +44,12 @@ const MainTimer: React.FC = () => {
   ) => {
     setMode(newMode);
     setTime(modes[newMode]);
+    setMainColor("bg-blue-900");
   };
 
   const handleStart = () => {
     setIsRunning(!isRunning);
+    setMainColor("bg-black");
   };
 
   const formatTime = (seconds: number) => {

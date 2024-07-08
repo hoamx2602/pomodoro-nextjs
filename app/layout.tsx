@@ -18,9 +18,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={varela.className}>
-          <div className="container m-auto bg-[#9B8238]">{children}</div>
-        </body>
+        <body className={varela.className}>{children}</body>
       </html>
     </ClerkProvider>
   );
