@@ -8,9 +8,9 @@ const Navbar = () => {
   return (
     <nav className="flex flex-row items-center justify-between py-4">
       <div className="text-xl font-semibold hover:cursor-pointer text-white">
-        <div className="flex items-center">
-          <FaCheckCircle className="h-5 w-5 mr-1" />
-          <span className="text-xl font-bold mt-1">Pomofocus</span>
+        <div className="flex items-center dark:hidden">
+          <FaCheckCircle className="h-5 w-5 mr-1 " />
+          <span className="text-xl font-bold mt-1 dark:bg-black dark:text-black">Pomofocus</span>
         </div>
       </div>
       <div className="flex flex-row items-center justify-center gap-x-2">
@@ -25,7 +25,6 @@ const Navbar = () => {
           <IoMdSettings className="h-4 w-4 mr-1" />
           Setting
         </Button>
-        {/* <ModeToggle /> */}
         <UserButton />
       </div>
     </nav>
