@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Varela_Round } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
-import { ThemeProvider } from "@/components/theme-provider"
+import { ThemeProvider } from "@/components/theme-provider";
+import { AppWrapper } from "@/context";
 
 const varela = Varela_Round({ subsets: ["latin"], weight: "400" });
 
@@ -26,7 +27,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            {children}
+            <AppWrapper>{children}</AppWrapper>
           </ThemeProvider>
         </body>
       </html>

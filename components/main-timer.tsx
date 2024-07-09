@@ -31,47 +31,19 @@ import {
   FormMessage,
 } from "./ui/form";
 import { useForm } from "react-hook-form";
+import { useAppContext } from "@/context";
+import Mode from "./mode";
+import TimeCount from "./time-count";
+import StartButton from "./start-button";
 
-interface MainTimerProps {
-  setMainColor: (color: string) => void;
-  setTheme: (type: string) => void;
-}
-
-const MainTimer = ({ setMainColor, setTheme }: MainTimerProps) => {
-  const [time, setTime] = useState<number>(900); // Default to 15 minutes
-  const [isRunning, setIsRunning] = useState<boolean>(false);
-  const { theme } = useTheme();
-
-  const [mode, setMode] = useState<"pomodoro" | "shortBreak" | "longBreak">(
-    "longBreak"
-  );
-
-  const modes = [
-    {
-      label: "Pomodoro",
-      time: 1500,
-      color: "bg-pomocolor1",
-      mode: "pomodoro",
-    },
-    {
-      label: "Short Break",
-      time: 300,
-      color: "bg-pomocolor2",
-      mode: "shortBreak",
-    },
-    {
-      label: "Long Break",
-      time: 900,
-      color: "bg-pomocolor3",
-      mode: "longBreak",
-    },
-  ];
+const MainTimer = () => {
+  const { setTime, isRunning, setIsRunning } = useAppContext();
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
     if (isRunning) {
       timer = setInterval(() => {
-        setTime((prevTime) => {
+        setTime((prevTime: number) => {
           if (prevTime <= 1) {
             clearInterval(timer);
             setIsRunning(false);
@@ -83,29 +55,6 @@ const MainTimer = ({ setMainColor, setTheme }: MainTimerProps) => {
     }
     return () => clearInterval(timer);
   }, [isRunning]);
-
-  const handleModeChange = (
-    newMode: "pomodoro" | "shortBreak" | "longBreak",
-    color: string,
-    time: number
-  ) => {
-    setMode(newMode);
-    setTime(time);
-    setMainColor(color);
-  };
-
-  const handleStart = () => {
-    setIsRunning(!isRunning);
-    setTheme(theme === "light" ? "dark" : "light");
-  };
-
-  const formatTime = (seconds: number) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes < 10 ? "0" : ""}${minutes}:${
-      remainingSeconds < 10 ? "0" : ""
-    }${remainingSeconds}`;
-  };
 
   const onClick = () => {
     console.log("🟢====>1111111111", 1111111111);
@@ -145,35 +94,11 @@ const MainTimer = ({ setMainColor, setTheme }: MainTimerProps) => {
               isRunning && "hidden"
             )}
           >
-            {modes.map((item) => (
-              <Button
-                key={item.time}
-                onClick={() =>
-                  handleModeChange(
-                    item.mode as "pomodoro" | "shortBreak" | "longBreak",
-                    item.color,
-                    item.time
-                  )
-                }
-                className={cn(
-                  "py-2 drop-shadow-none shadow-none px-4 rounded hover:bg-transparent bg-transparent text-white text-lg",
-                  mode === item.mode && "bg-black/15 hover:bg-black/15"
-                )}
-              >
-                {item.label}
-              </Button>
-            ))}
+            <Mode />
           </div>
           <div className="mt-20 flex items-center flex-col font-bold">
-            <div className="text-9xl text-white dark:text-pomotext">
-              {formatTime(time)}
-            </div>
-            <Button
-              onClick={handleStart}
-              className="text-2xl w-40 mb-4 mt-4 drop-shadow-lg font-semibold box-content bg-white text-yellow-700 rounded shadow hover:bg-white dark:bg-black dark:text-pomotext"
-            >
-              {isRunning ? "PAUSE" : "START"}
-            </Button>
+            <TimeCount />
+            <StartButton />
           </div>
         </Card>
 
