@@ -60,7 +60,7 @@ const config = {
         pomocolor6: "#AF4E91",
         pomocolor7: "#518A58",
         pomocolor8: "#545764",
-        pomotext: "#AAAAAA"
+        pomotext: "#AAAAAA",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -83,6 +83,20 @@ const config = {
       },
     },
   },
+  safelist: [
+    "pomocolor1",
+    "pomocolor2",
+    "pomocolor3",
+    "pomocolor4",
+    "pomocolor5",
+    "pomocolor6",
+    "pomocolor7",
+    "pomocolor8",
+    "pomotext",
+    {
+      pattern: /(bg|text|border)-pomocolor(1|2|3|4|5|6|7|8)/
+    }
+  ],
   plugins: [require("tailwindcss-animate")],
 } satisfies Config;
 

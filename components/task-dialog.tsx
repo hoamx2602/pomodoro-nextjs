@@ -61,7 +61,7 @@ const TaskDialog = () => {
           <FaPlusCircle className="h-5 w-5 mr-2" /> Add Task
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[600px]">
         {/* Form */}
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -72,8 +72,8 @@ const TaskDialog = () => {
                 <FormItem>
                   <FormControl>
                     <Input
-                      className="border-none focus:outline-none focus:ring-0 focus-visible:border-none shadow-none"
-                      placeholder="shadcn"
+                      className="border-none focus:outline-none focus:ring-0 focus-visible:border-none shadow-none text-3xl placeholder-gray-300 italic font-medium"
+                      placeholder="What are you working on?"
                       {...field}
                     />
                   </FormControl>
@@ -81,7 +81,7 @@ const TaskDialog = () => {
                 </FormItem>
               )}
             />
-            <p>Est Pomodoros</p>
+            <p className="text-[#555555] font-semibold text-xl w-full">Est Pomodoros</p>
             <div className="flex flex-row">
               <FormField
                 control={form.control}
@@ -90,8 +90,7 @@ const TaskDialog = () => {
                   <FormItem>
                     <FormControl>
                       <Input
-                        className="focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-                        placeholder="shadcn"
+                        className="border-none focus:outline-none focus:ring-0 focus-visible:border-none shadow-none w-20 bg-[#EFEFEF]"
                         {...field}
                       />
                     </FormControl>
@@ -99,11 +98,12 @@ const TaskDialog = () => {
                   </FormItem>
                 )}
               />
-              <Button className="bg-white" type="button">
-                <TiArrowSortedUp className="text-black" />
+              <Button className="bg-white shadow-lg border-[1px] border-[#DFDFDF] px-3" type="button">
+                <TiArrowSortedUp className="text-[#666666] h-5 w-5" />
               </Button>
-              <Button className="bg-white" type="button">
-                <TiArrowSortedDown className="text-black" />
+              <Button className="bg-white shadow-lg border-[1px] border-[#DFDFDF] px-3" type="button">
+                <TiArrowSortedDown className="text-[#666666] h-5 w-5" />
+                
               </Button>
             </div>
             <Button type="submit">Submit</Button>
