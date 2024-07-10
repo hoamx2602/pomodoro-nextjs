@@ -2,11 +2,13 @@
 
 import { createContext, Dispatch, SetStateAction, useContext, useState } from "react";
 
+export type mode =  "pomodoro" | "shortBreak" | "longBreak"
+
 interface Context {
   mainColor: string;
   setMainColor: Dispatch<SetStateAction<string>>
-  mode: string;
-  setMode: Dispatch<SetStateAction<"pomodoro" | "shortBreak" | "longBreak">>
+  mode: mode;
+  setMode: Dispatch<SetStateAction<mode>>
   setTime: Dispatch<SetStateAction<number>>;
   time: number;
   isRunning: boolean;
@@ -26,7 +28,7 @@ const AppContext = createContext<Context>({
 
 export function AppWrapper({ children }: { children: React.ReactNode }) {
   const [mainColor, setMainColor] = useState("bg-pomocolor1");
-  const [mode, setMode] = useState<"pomodoro" | "shortBreak" | "longBreak">(
+  const [mode, setMode] = useState<mode>(
     "pomodoro"
   );
   const [isRunning, setIsRunning] = useState<boolean>(false);

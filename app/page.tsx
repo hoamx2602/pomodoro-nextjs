@@ -6,15 +6,17 @@ import ProgressAction from "@/components/progress-action";
 import { useAppContext } from "@/context";
 
 export default function Home() {
-  const { mainColor} = useAppContext();
+  const { mainColor } = useAppContext();
 
-  console.log('🟢====>bg-pomocolor1', mainColor);
-  
+  console.log('🟢====>mainColor', mainColor);
+
   return (
-    <div className={`${mainColor} dark:bg-black`}>
-      <div className="m-auto w-[644px] h-screen">
+    <div className={`${mainColor} dark:bg-black h-screen`}>
+      <div className="m-auto w-[644px]">
         <Navbar />
         <ProgressAction />
+      </div>
+      <div className="w-[480px] m-auto">
         <MainTimer />
       </div>
     </div>

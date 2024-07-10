@@ -11,7 +11,7 @@ const TimeCount = () => {
     }${remainingSeconds}`;
   };
   return (
-    <div className="text-9xl text-white dark:text-pomotext">
+    <div className="text-[120px] text-white dark:text-pomotext">
       {formatTime(time)}
     </div>
   );

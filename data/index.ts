@@ -1,3 +1,5 @@
+import { mode } from "@/context";
+
 export const MODES = [
   {
     label: "Pomodoro",
@@ -18,3 +20,23 @@ export const MODES = [
     mode: "longBreak",
   },
 ];
+
+export const colorByMode = (mode: mode) => {
+  let color = "pomocolor1";
+  switch (mode) {
+    case "pomodoro":
+      color = "pomocolor1";
+      break;
+
+    case "shortBreak":
+      color = "pomocolor2";
+      break;
+
+    case "longBreak":
+      color = "pomocolor3";
+      break;
+    default:
+      break;
+  }
+  return color;
+};
