@@ -6,23 +6,25 @@ import { useForm } from "react-hook-form";
 import { FaPlusCircle } from "react-icons/fa";
 import { z } from "zod";
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
 } from "./ui/dialog";
 import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from "./ui/form";
 import { Input } from "./ui/input";
+import { TiArrowSortedDown } from "react-icons/ti";
+import { TiArrowSortedUp } from "react-icons/ti";
 
 const TaskDialog = () => {
   const onClick = () => {
@@ -32,12 +34,14 @@ const TaskDialog = () => {
     username: z.string().min(2, {
       message: "Username must be at least 2 characters.",
     }),
+    est: z.number().min(0),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: "",
+      est: 0,
     },
   });
 
@@ -58,10 +62,6 @@ const TaskDialog = () => {
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Add new task</DialogTitle>
-          <DialogDescription>Create new task</DialogDescription>
-        </DialogHeader>
         {/* Form */}
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -70,17 +70,42 @@ const TaskDialog = () => {
               name="username"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
                   <FormControl>
-                    <Input placeholder="shadcn" {...field} />
+                    <Input
+                      className="border-none focus:outline-none focus:ring-0 focus-visible:border-none shadow-none"
+                      placeholder="shadcn"
+                      {...field}
+                    />
                   </FormControl>
-                  <FormDescription>
-                    This is your public display name.
-                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
+            <p>Est Pomodoros</p>
+            <div className="flex flex-row">
+              <FormField
+                control={form.control}
+                name="est"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        className="focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                        placeholder="shadcn"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button className="bg-white" type="button">
+                <TiArrowSortedUp className="text-black" />
+              </Button>
+              <Button className="bg-white" type="button">
+                <TiArrowSortedDown className="text-black" />
+              </Button>
+            </div>
             <Button type="submit">Submit</Button>
           </form>
         </Form>
