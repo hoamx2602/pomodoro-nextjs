@@ -7,10 +7,12 @@ import { FaCheckCircle } from "react-icons/fa";
 const Navbar = () => {
   return (
     <nav className="flex flex-row items-center justify-between py-4">
-      <div className="text-xl font-semibold hover:cursor-pointer text-white">
+      <div className="text-xl font-semibold text-white hover:cursor-pointer">
         <div className="flex items-center dark:hidden">
-          <FaCheckCircle className="h-5 w-5 mr-1 " />
-          <span className="text-xl font-bold mt-1 dark:bg-black dark:text-black">Pomofocus</span>
+          <FaCheckCircle className="mr-1 h-5 w-5" />
+          <span className="mt-1 text-xl font-bold dark:bg-black dark:text-black">
+            Pomofocus
+          </span>
         </div>
       </div>
       <div className="flex flex-row items-center justify-center gap-x-2">
@@ -18,11 +20,14 @@ const Navbar = () => {
           variant="outline"
           className="bg-white-alpha-20 border-none text-white"
         >
-          <IoBarChartSharp className="h-4 w-4 mr-1" />
+          <IoBarChartSharp className="mr-1 h-4 w-4" />
           Reports
         </Button>
-        <Button className="bg-white-alpha-20 border-none text-white" variant="outline">
-          <IoMdSettings className="h-4 w-4 mr-1" />
+        <Button
+          className="bg-white-alpha-20 border-none text-white"
+          variant="outline"
+        >
+          <IoMdSettings className="mr-1 h-4 w-4" />
           Setting
         </Button>
         <UserButton />

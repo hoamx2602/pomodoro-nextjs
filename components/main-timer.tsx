@@ -33,22 +33,22 @@ const MainTimer = () => {
 
   return (
     <>
-      <div className="flex flex-col relative items-center justify-center">
+      <div className="relative flex flex-col items-center justify-center">
         <Card
           className={cn(
-            "border-none w-full m-auto flex flex-col items-center justify-center mt-10 bg-white/15",
-            isRunning && "bg-black"
+            "m-auto mt-10 flex w-full flex-col items-center justify-center border-none bg-white/15",
+            isRunning && "bg-black",
           )}
         >
           <div
             className={cn(
-              "z-10 absolute top-10 flex space-x-4 mb-4 mt-4",
-              isRunning && "hidden"
+              "absolute top-10 z-10 mb-4 mt-4 flex space-x-4",
+              isRunning && "hidden",
             )}
           >
             <Mode />
           </div>
-          <div className="mt-[70px] flex items-center flex-col font-bold">
+          <div className="mt-[70px] flex flex-col items-center font-bold">
             <TimeCount />
             <StartButton />
           </div>

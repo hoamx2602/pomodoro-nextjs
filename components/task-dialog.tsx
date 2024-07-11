@@ -60,13 +60,13 @@ const TaskDialog = () => {
       <DialogTrigger asChild>
         <Button
           onClick={onClick}
-          className="flex w-full flex-row items-center h-16 justify-center border-dashed cursor-pointer border-2 bg-black/10 border-white/40 hover:bg-black/10 hover:border-white/50 text-white/80 hover:text-white/95 font-semibold rounded-lg text-lg"
+          className="flex h-16 w-full cursor-pointer flex-row items-center justify-center rounded-lg border-2 border-dashed border-white/40 bg-black/10 text-lg font-semibold text-white/80 hover:border-white/50 hover:bg-black/10 hover:text-white/95"
         >
-          <FaPlusCircle className="h-5 w-5 mr-2" /> Add Task
+          <FaPlusCircle className="mr-2 h-5 w-5" /> Add Task
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="p-0 max-w-[600px]">
+      <DialogContent className="max-w-[600px] p-0">
         {/* Form */}
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -78,7 +78,7 @@ const TaskDialog = () => {
                   <FormItem>
                     <FormControl>
                       <Input
-                        className="px-0 border-none focus:outline-none focus:ring-0 focus-visible:border-none shadow-none text-3xl placeholder-gray-300 placeholder:italic font-medium text-[#555555]"
+                        className="border-none px-0 text-3xl font-medium text-[#555555] placeholder-gray-300 shadow-none placeholder:italic focus:outline-none focus:ring-0 focus-visible:border-none"
                         placeholder="What are you working on?"
                         {...field}
                       />
@@ -87,10 +87,10 @@ const TaskDialog = () => {
                   </FormItem>
                 )}
               />
-              <p className="text-[#555555] font-semibold text-xl w-full mt-7">
+              <p className="mt-7 w-full text-xl font-semibold text-[#555555]">
                 Est Pomodoros
               </p>
-              <div className="flex flex-row items-center space-x-4 mt-3">
+              <div className="mt-3 flex flex-row items-center space-x-4">
                 <FormField
                   control={form.control}
                   name="est"
@@ -98,7 +98,7 @@ const TaskDialog = () => {
                     <FormItem>
                       <FormControl>
                         <Input
-                          className="border-none focus:outline-none focus:ring-0 focus-visible:border-none shadow-none w-20 text-base font-semibold text-[#555555] bg-[#EFEFEF]"
+                          className="w-20 border-none bg-[#EFEFEF] text-base font-semibold text-[#555555] shadow-none focus:outline-none focus:ring-0 focus-visible:border-none"
                           {...field}
                         />
                       </FormControl>
@@ -108,16 +108,16 @@ const TaskDialog = () => {
                 />
                 <div className="flex items-center space-x-1">
                   <Button
-                    className="bg-white shadow-lg border-[1px] border-[#DFDFDF] px-3"
+                    className="border-[1px] border-[#DFDFDF] bg-white px-3 shadow-lg"
                     type="button"
                   >
-                    <TiArrowSortedUp className="text-[#666666] h-5 w-5" />
+                    <TiArrowSortedUp className="h-5 w-5 text-[#666666]" />
                   </Button>
                   <Button
-                    className="bg-white shadow-lg border-[1px] border-[#DFDFDF] px-3"
+                    className="border-[1px] border-[#DFDFDF] bg-white px-3 shadow-lg"
                     type="button"
                   >
-                    <TiArrowSortedDown className="text-[#666666] h-5 w-5" />
+                    <TiArrowSortedDown className="h-5 w-5 text-[#666666]" />
                   </Button>
                 </div>
               </div>
@@ -129,8 +129,8 @@ const TaskDialog = () => {
                     <FormControl>
                       <Textarea
                         className={cn(
-                          "bg-[#EFEFEF] placeholder-gray-300 text-base text-[#555555] mt-5",
-                          !showNote && "hidden"
+                          "mt-5 bg-[#EFEFEF] text-base text-[#555555] placeholder-gray-300",
+                          !showNote && "hidden",
                         )}
                         placeholder="Some notes"
                         {...field}
@@ -148,8 +148,8 @@ const TaskDialog = () => {
                     <FormControl>
                       <Input
                         className={cn(
-                          "bg-[#EFEFEF] text-[#555555] h-12 mt-5 focus:outline-none focus:ring-0 focus-visible:border-none placeholder-gray-400 text-base",
-                          !showProject && "hidden"
+                          "mt-5 h-12 bg-[#EFEFEF] text-base text-[#555555] placeholder-gray-400 focus:outline-none focus:ring-0 focus-visible:border-none",
+                          !showProject && "hidden",
                         )}
                         placeholder="Project name"
                         {...field}
@@ -159,13 +159,13 @@ const TaskDialog = () => {
                   </FormItem>
                 )}
               />
-              <div className="flex items-center space-x-1 mt-4">
+              <div className="mt-4 flex items-center space-x-1">
                 <Button
                   type="button"
                   variant="link"
                   className={cn(
-                    "font-semibold px-1 text-base text-black/40 underline",
-                    showNote && "hidden"
+                    "px-1 text-base font-semibold text-black/40 underline",
+                    showNote && "hidden",
                   )}
                   onClick={() => setShowNote(true)}
                 >
@@ -175,8 +175,8 @@ const TaskDialog = () => {
                   type="button"
                   variant="link"
                   className={cn(
-                    "font-semibold px-1 text-base text-black/40 underline",
-                    showProject && "hidden"
+                    "px-1 text-base font-semibold text-black/40 underline",
+                    showProject && "hidden",
                   )}
                   onClick={() => setShowProject(true)}
                 >
@@ -184,10 +184,10 @@ const TaskDialog = () => {
                 </Button>
               </div>
             </div>
-            <DialogFooter className="flex justify-end space-x-2 bg-[#EFEFEF] py-4 px-4 rounded-b-lg mt-2">
+            <DialogFooter className="mt-2 flex justify-end space-x-2 rounded-b-lg bg-[#EFEFEF] px-4 py-4">
               <Button
                 variant="ghost"
-                className="bg-transparent hover:bg-transparent hover:font-semibold hover:text-gray-500 outline-none text-gray-400 text-base"
+                className="bg-transparent text-base text-gray-400 outline-none hover:bg-transparent hover:font-semibold hover:text-gray-500"
                 type="button"
                 onClick={() => {
                   form.reset();

@@ -12,14 +12,14 @@ const StartButton = () => {
     setTheme(theme === "light" ? "dark" : "light");
   };
 
-  console.log('🟢====>mode', mode);
+  console.log("🟢====>mode", mode);
 
   return (
     <Button
       onClick={handleStart}
       className={cn(
-        "text-2xl w-40 mb-4 drop-shadow-lg font-semibold box-content bg-white rounded shadow hover:bg-white dark:bg-black dark:text-pomotext",
-        mode && `text-${colorByMode(mode)}`
+        "mb-4 box-content w-40 rounded bg-white text-2xl font-semibold shadow drop-shadow-lg hover:bg-white dark:bg-black dark:text-pomotext",
+        mode && `text-${colorByMode(mode)}`,
       )}
     >
       {isRunning ? "PAUSE" : "START"}

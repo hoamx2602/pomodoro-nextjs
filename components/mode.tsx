@@ -10,7 +10,7 @@ const Mode = () => {
   const handleModeChange = (
     newMode: "pomodoro" | "shortBreak" | "longBreak",
     color: string,
-    time: number
+    time: number,
   ) => {
     setMode(newMode);
     setTime(time);
@@ -25,12 +25,12 @@ const Mode = () => {
             handleModeChange(
               item.mode as "pomodoro" | "shortBreak" | "longBreak",
               item.color,
-              item.time
+              item.time,
             )
           }
           className={cn(
-            "py-1 px-2 drop-shadow-none shadow-none rounded hover:bg-transparent bg-transparent text-white text-lg",
-            mode === item.mode && "bg-black/15 hover:bg-black/15 font-semibold"
+            "rounded bg-transparent px-2 py-1 text-lg text-white shadow-none drop-shadow-none hover:bg-transparent",
+            mode === item.mode && "bg-black/15 font-semibold hover:bg-black/15",
           )}
         >
           {item.label}
