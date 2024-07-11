@@ -9,6 +9,7 @@ import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
 import { z } from "zod";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogFooter,
   DialogTrigger,
@@ -21,8 +22,9 @@ import { cn } from "@/lib/utils";
 const TaskDialog = () => {
   const [showNote, setShowNote] = useState(false);
   const [showProject, setShowProject] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
   const onClick = () => {
-    console.log("🟢====>1111111111", 1111111111);
+    setOpenDialog(true);
   };
   const formSchema = z.object({
     username: z.string().min(2, {
@@ -47,8 +49,14 @@ const TaskDialog = () => {
     // ✅ This will be type-safe and validated.
     console.log(values);
   }
+
+  const onCloseDialog = () => {
+    setShowNote(false);
+    setShowProject(false);
+    setOpenDialog(false);
+  };
   return (
-    <Dialog>
+    <Dialog open={openDialog}>
       <DialogTrigger asChild>
         <Button
           onClick={onClick}
@@ -113,30 +121,6 @@ const TaskDialog = () => {
                   </Button>
                 </div>
               </div>
-              <div className="flex items-center space-x-1 mt-4">
-                <Button
-                  type="button"
-                  variant="link"
-                  className={cn(
-                    "font-semibold px-1 text-base text-black/40 underline",
-                    showNote && "hidden"
-                  )}
-                  onClick={() => setShowNote(true)}
-                >
-                  + Add Note
-                </Button>
-                <Button
-                  type="button"
-                  variant="link"
-                  className={cn(
-                    "font-semibold px-1 text-base text-black/40 underline",
-                    showProject && "hidden"
-                  )}
-                  onClick={() => setShowProject(true)}
-                >
-                  + Add Project
-                </Button>
-              </div>
               <FormField
                 control={form.control}
                 name="note"
@@ -175,12 +159,40 @@ const TaskDialog = () => {
                   </FormItem>
                 )}
               />
+              <div className="flex items-center space-x-1 mt-4">
+                <Button
+                  type="button"
+                  variant="link"
+                  className={cn(
+                    "font-semibold px-1 text-base text-black/40 underline",
+                    showNote && "hidden"
+                  )}
+                  onClick={() => setShowNote(true)}
+                >
+                  + Add Note
+                </Button>
+                <Button
+                  type="button"
+                  variant="link"
+                  className={cn(
+                    "font-semibold px-1 text-base text-black/40 underline",
+                    showProject && "hidden"
+                  )}
+                  onClick={() => setShowProject(true)}
+                >
+                  + Add Project
+                </Button>
+              </div>
             </div>
             <DialogFooter className="flex justify-end space-x-2 bg-[#EFEFEF] py-4 px-4 rounded-b-lg mt-2">
               <Button
                 variant="ghost"
                 className="bg-transparent hover:bg-transparent hover:font-semibold hover:text-gray-500 outline-none text-gray-400 text-base"
                 type="button"
+                onClick={() => {
+                  form.reset();
+                  onCloseDialog();
+                }}
               >
                 Cancel
               </Button>
