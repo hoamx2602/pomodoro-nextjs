@@ -15,8 +15,12 @@ import {
 } from "./ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
 import { Input } from "./ui/input";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 const TaskDialog = () => {
+  const [showNote, setShowNote] = useState(false);
+  const [showProject, setShowProject] = useState(false);
   const onClick = () => {
     console.log("🟢====>1111111111", 1111111111);
   };
@@ -113,14 +117,22 @@ const TaskDialog = () => {
                 <Button
                   type="button"
                   variant="link"
-                  className="font-semibold px-1 text-base text-black/40 underline"
+                  className={cn(
+                    "font-semibold px-1 text-base text-black/40 underline",
+                    showNote && "hidden"
+                  )}
+                  onClick={() => setShowNote(true)}
                 >
                   + Add Note
                 </Button>
                 <Button
                   type="button"
                   variant="link"
-                  className="font-semibold px-1 text-base text-black/40 underline"
+                  className={cn(
+                    "font-semibold px-1 text-base text-black/40 underline",
+                    showProject && "hidden"
+                  )}
+                  onClick={() => setShowProject(true)}
                 >
                   + Add Project
                 </Button>
@@ -132,7 +144,10 @@ const TaskDialog = () => {
                   <FormItem>
                     <FormControl>
                       <Textarea
-                        className=" bg-[#EFEFEF] placeholder-gray-300 text-base text-[#555555] mt-5"
+                        className={cn(
+                          "bg-[#EFEFEF] placeholder-gray-300 text-base text-[#555555] mt-5",
+                          !showNote && "hidden"
+                        )}
                         placeholder="Some notes"
                         {...field}
                       />
@@ -148,7 +163,10 @@ const TaskDialog = () => {
                   <FormItem>
                     <FormControl>
                       <Input
-                        className=" bg-[#EFEFEF] text-[#555555] h-12 mt-5 focus:outline-none focus:ring-0 focus-visible:border-none placeholder-gray-400 text-base"
+                        className={cn(
+                          "bg-[#EFEFEF] text-[#555555] h-12 mt-5 focus:outline-none focus:ring-0 focus-visible:border-none placeholder-gray-400 text-base",
+                          !showProject && "hidden"
+                        )}
                         placeholder="Project name"
                         {...field}
                       />
