@@ -78,7 +78,7 @@ const TaskDialog = () => {
                   <FormItem>
                     <FormControl>
                       <Input
-                        className="px-0 border-none focus:outline-none focus:ring-0 focus-visible:border-none shadow-none text-3xl placeholder-gray-300 italic font-medium"
+                        className="px-0 border-none focus:outline-none focus:ring-0 focus-visible:border-none shadow-none text-3xl placeholder-gray-300 placeholder:italic font-medium text-[#555555]"
                         placeholder="What are you working on?"
                         {...field}
                       />
