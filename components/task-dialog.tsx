@@ -7,7 +7,12 @@ import { useForm } from "react-hook-form";
 import { FaPlusCircle } from "react-icons/fa";
 import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
 import { z } from "zod";
-import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogTrigger,
+} from "./ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
 import { Input } from "./ui/input";
 
@@ -48,11 +53,12 @@ const TaskDialog = () => {
           <FaPlusCircle className="h-5 w-5 mr-2" /> Add Task
         </Button>
       </DialogTrigger>
-      <div className="p-0">
-        <DialogContent className="pb-0 max-w-[600px]">
-          {/* Form */}
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+
+      <DialogContent className="p-0 max-w-[600px]">
+        {/* Form */}
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <div className="p-6 pb-4">
               <FormField
                 control={form.control}
                 name="username"
@@ -69,10 +75,10 @@ const TaskDialog = () => {
                   </FormItem>
                 )}
               />
-              <p className="text-[#555555] font-semibold text-xl w-full">
+              <p className="text-[#555555] font-semibold text-xl w-full mt-7">
                 Est Pomodoros
               </p>
-              <div className="flex flex-row items-center space-x-4">
+              <div className="flex flex-row items-center space-x-4 mt-3">
                 <FormField
                   control={form.control}
                   name="est"
@@ -103,14 +109,16 @@ const TaskDialog = () => {
                   </Button>
                 </div>
               </div>
-              <div className="flex items-center space-x-1">
+              <div className="flex items-center space-x-1 mt-4">
                 <Button
+                  type="button"
                   variant="link"
                   className="font-semibold px-1 text-base text-black/40 underline"
                 >
                   + Add Note
                 </Button>
                 <Button
+                  type="button"
                   variant="link"
                   className="font-semibold px-1 text-base text-black/40 underline"
                 >
@@ -124,7 +132,7 @@ const TaskDialog = () => {
                   <FormItem>
                     <FormControl>
                       <Textarea
-                        className="bg-[#EFEFEF] placeholder-gray-300 text-sm"
+                        className=" bg-[#EFEFEF] placeholder-gray-300 text-base text-[#555555] mt-5"
                         placeholder="Some notes"
                         {...field}
                       />
@@ -140,7 +148,7 @@ const TaskDialog = () => {
                   <FormItem>
                     <FormControl>
                       <Input
-                        className="bg-[#EFEFEF] focus:outline-none focus:ring-0 focus-visible:border-none placeholder-gray-400 text-sm"
+                        className=" bg-[#EFEFEF] text-[#555555] h-12 mt-5 focus:outline-none focus:ring-0 focus-visible:border-none placeholder-gray-400 text-base"
                         placeholder="Project name"
                         {...field}
                       />
@@ -149,14 +157,22 @@ const TaskDialog = () => {
                   </FormItem>
                 )}
               />
-            </form>
-          </Form>
-          <div className="flex justify-end space-x-2 bg-[#EFEFEF] py-4">
-            <Button type="button">Cancel</Button>
-            <Button type="submit">Submit</Button>
-          </div>
-        </DialogContent>
-      </div>
+            </div>
+            <DialogFooter className="flex justify-end space-x-2 bg-[#EFEFEF] py-4 px-4 rounded-b-lg mt-2">
+              <Button
+                variant="ghost"
+                className="bg-transparent hover:bg-transparent hover:font-semibold hover:text-gray-500 outline-none text-gray-400 text-base"
+                type="button"
+              >
+                Cancel
+              </Button>
+              <Button className="bg-[#222222] text-base" type="submit">
+                Save
+              </Button>
+            </DialogFooter>
+          </form>
+        </Form>
+      </DialogContent>
     </Dialog>
   );
 };
