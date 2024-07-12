@@ -18,36 +18,50 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
 import { Input } from "./ui/input";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { taskSchema } from "@/schemas";
+import { createTask } from "@/actions/create-task";
+import { toast } from "sonner";
 
 const TaskDialog = () => {
   const [showNote, setShowNote] = useState(false);
   const [showProject, setShowProject] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
+  const [error, setError] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<string | undefined>("");
+
   const onClick = () => {
     setOpenDialog(true);
   };
-  const formSchema = z.object({
-    username: z.string().min(2, {
-      message: "Username must be at least 2 characters.",
-    }),
-    est: z.number().min(0),
-    note: z.string(),
-    project: z.string(),
-  });
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof taskSchema>>({
+    resolver: zodResolver(taskSchema),
     defaultValues: {
-      username: "",
-      est: 0,
+      title: "",
+      pomodoros: 0,
+      project: "",
+      note: "",
     },
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  function onSubmit(values: z.infer<typeof taskSchema>) {
+    setError("");
+    setSuccess("");
+    createTask(values)
+      .then((data) => {
+        if (data?.success) {
+          form.reset();
+          toast.success(data.success);
+          setOpenDialog(false);
+        }
+
+        if (data.error) {
+          toast.error(data.error);
+        }
+      })
+      .catch(() => {
+        setError("Something went wrong");
+      });
   }
 
   const onCloseDialog = () => {
@@ -73,7 +87,7 @@ const TaskDialog = () => {
             <div className="p-6 pb-4">
               <FormField
                 control={form.control}
-                name="username"
+                name="title"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
@@ -93,7 +107,7 @@ const TaskDialog = () => {
               <div className="mt-3 flex flex-row items-center space-x-4">
                 <FormField
                   control={form.control}
-                  name="est"
+                  name="pomodoros"
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>

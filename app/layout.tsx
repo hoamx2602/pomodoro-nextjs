@@ -4,6 +4,7 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AppWrapper } from "@/context";
+import { Toaster } from "sonner";
 
 const varela = Varela_Round({ subsets: ["latin"], weight: "400" });
 
@@ -27,7 +28,10 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <AppWrapper>{children}</AppWrapper>
+            <AppWrapper>
+              <Toaster richColors />
+              {children}
+            </AppWrapper>
           </ThemeProvider>
         </body>
       </html>
