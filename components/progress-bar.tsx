@@ -2,15 +2,13 @@
 
 import { useAppContext } from "@/context";
 import { MODES } from "@/data";
-import { MODE } from "@/context";
 import { useState, useEffect } from "react";
 
 const ProgressBar = () => {
   const [progress, setProgress] = useState(0.5);
   const { isRunning, time, mode, setTime } = useAppContext();
-  const timeTotal = MODES.find((mod: MODE) => mod.mode === mode).time;
+  const timeTotal = MODES.find((mod) => mod.mode === mode)?.time || 0;
 
-  console.log("🟢====>time", time);
   useEffect(() => {
     if (isRunning) {
       setProgress((prev) => prev + 100 / timeTotal);
