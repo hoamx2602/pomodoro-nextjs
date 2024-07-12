@@ -18,7 +18,7 @@ const StartButton = () => {
     <Button
       onClick={handleStart}
       className={cn(
-        "mb-4 box-content w-40 rounded bg-white text-2xl font-semibold shadow drop-shadow-lg hover:bg-white dark:bg-black dark:text-pomotext",
+        "mb-4 box-content w-40 rounded bg-white text-2xl font-bold shadow drop-shadow-lg hover:bg-white dark:bg-black dark:text-pomotext",
         mode && `text-${colorByMode(mode)}`,
       )}
     >

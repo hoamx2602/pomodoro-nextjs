@@ -1,4 +1,4 @@
-import { mode } from "@/context";
+import { MODE } from "@/context";
 
 export const MODES = [
   {
@@ -21,7 +21,7 @@ export const MODES = [
   },
 ];
 
-export const colorByMode = (mode: mode) => {
+export const colorByMode = (mode: MODE) => {
   let color = "pomocolor1";
   switch (mode) {
     case "pomodoro":

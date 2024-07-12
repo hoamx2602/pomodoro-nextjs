@@ -18,13 +18,13 @@ const Navbar = () => {
       <div className="flex flex-row items-center justify-center gap-x-2">
         <Button
           variant="outline"
-          className="bg-white-alpha-20 border-none text-white"
+          className="bg-white-alpha-20 border-none text-white hover:text-white opacity-90 hover:opacity-100"
         >
           <IoBarChartSharp className="mr-1 h-4 w-4" />
           Reports
         </Button>
         <Button
-          className="bg-white-alpha-20 border-none text-white"
+          className="bg-white-alpha-20 border-none text-white hover:text-white opacity-90 hover:opacity-100"
           variant="outline"
         >
           <IoMdSettings className="mr-1 h-4 w-4" />

@@ -1,12 +1,16 @@
 import type { Metadata } from "next";
-import { Varela_Round } from "next/font/google";
+import { Nunito } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AppWrapper } from "@/context";
 import { Toaster } from "sonner";
 
-const varela = Varela_Round({ subsets: ["latin"], weight: "400" });
+const nunito = Nunito({
+  weight: ["200", "300", "400", "600", "700", "800"],
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -21,7 +25,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={varela.className}>
+        <body className={nunito.className}>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"

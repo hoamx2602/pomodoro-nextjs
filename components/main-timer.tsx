@@ -10,6 +10,8 @@ import TaskNav from "./task-nav";
 import TaskTitle from "./task-title";
 import TimeCount from "./time-count";
 import TaskDialog from "./task-dialog";
+import TaskList from "./task-list";
+import TaskSummary from "./task-summary";
 
 const MainTimer = () => {
   const { setTime, isRunning, setIsRunning } = useAppContext();
@@ -33,7 +35,7 @@ const MainTimer = () => {
 
   return (
     <>
-      <div className="relative flex flex-col items-center justify-center">
+      <div className="relative flex flex-col items-center justify-center pb-20">
         <Card
           className={cn(
             "m-auto mt-10 flex w-full flex-col items-center justify-center border-none bg-white/15",
@@ -54,9 +56,11 @@ const MainTimer = () => {
           </div>
         </Card>
         <TaskTitle />
-        <div className="dark:hidden">
+        <div className="dark:invisible">
           <TaskNav />
+          <TaskList />
           <TaskDialog />
+          <TaskSummary />
         </div>
       </div>
     </>
