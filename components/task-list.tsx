@@ -1,26 +1,40 @@
-import React, { useState } from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import { FaCheckCircle } from "react-icons/fa";
-import { FaEdit } from "react-icons/fa";
-import { FaRegEdit } from "react-icons/fa";
 import { BiDotsVertical } from "react-icons/bi";
+import { getTasks } from "@/actions/get-task";
+import { Task } from "@prisma/client";
 
 const TaskList = () => {
-  const [items, setItems] = useState([
-    { id: "1", content: "Item 1", project: "WELDONE" },
-    { id: "2", content: "Item 2", project: "WELDONE" },
-    { id: "3", content: "Item 3", project: "WELDONE" },
-  ]);
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    async function fetchTasks() {
+      setIsLoading(true);
+      const result = await getTasks();
+
+      setTasks(result);
+      setIsLoading(false);
+    }
+    fetchTasks();
+  }, []);
 
   const handleDragEnd = (result: any) => {
     if (!result.destination) return;
 
-    const newItems = Array.from(items);
+    const newItems = Array.from(tasks);
     const [reorderedItem] = newItems.splice(result.source.index, 1);
     newItems.splice(result.destination.index, 0, reorderedItem);
 
-    setItems(newItems);
+    setTasks(newItems);
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
@@ -31,7 +45,7 @@ const TaskList = () => {
             {...provided.droppableProps}
             className="mb-3"
           >
-            {items.map((item, index) => (
+            {tasks.map((item, index) => (
               <Draggable key={item.id} draggableId={item.id} index={index}>
                 {(provided) => (
                   <>
@@ -41,14 +55,16 @@ const TaskList = () => {
                       {...provided.dragHandleProps}
                       className="mt-2 rounded border-l-8 border-transparent bg-white p-[10px] text-base hover:border-l-8 hover:border-[#cccccc]"
                     >
-                      <div className="flex justify-between items-center">
-                        <div className="flex flex-row items-center justify-between py-2 pb-[18px]">
+                      <div className="flex items-center justify-between">
+                        <div className="flex flex-row items-center justify-between py-2">
                           <FaCheckCircle className="mr-3 h-7 w-7 text-[#dfdfdf] hover:text-[#ebeaea]" />
                           <span className="font-semibold text-[#555555]">
-                            <span className="mr-2 bg-[#f0f0f0] px-[6px] py-[2px] text-[13px] text-[#8a8989] font-bold rounded">
-                              {item.project}
-                            </span>
-                            {item.content}
+                            {item.project && (
+                              <span className="mr-2 rounded bg-[#f0f0f0] px-[6px] py-[2px] text-[13px] font-bold text-[#8a8989]">
+                                {item.project}
+                              </span>
+                            )}
+                            {item.title}
                           </span>
                         </div>
                         <div className="flex items-center justify-between">
@@ -59,7 +75,11 @@ const TaskList = () => {
                         </div>
                       </div>
                       <div className="px-5">
-                        <p className="py-[10px] px-[12px] text-[15px] rounded shadow-md bg-[#fcf8de] text-[#605515] mb-1">This is a notes</p>
+                        {item.note && (
+                          <p className="mb-1 rounded bg-[#fcf8de] px-[12px] py-[10px] text-[15px] text-[#605515] shadow-md">
+                            {item.note}
+                          </p>
+                        )}
                       </div>
                     </div>
                   </>

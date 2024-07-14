@@ -3,6 +3,7 @@
 import { getUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { taskSchema } from "@/schemas";
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 export const createTask = async (values: z.infer<typeof taskSchema>) => {
@@ -21,6 +22,7 @@ export const createTask = async (values: z.infer<typeof taskSchema>) => {
         userId: user.id,
       },
     });
+    revalidatePath('/')
 
     return {
       success: "Create success task",
