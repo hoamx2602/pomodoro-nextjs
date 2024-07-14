@@ -8,25 +8,37 @@ import { useRef, useState } from "react";
 const StartButton = () => {
   const { isRunning, setIsRunning, mode } = useAppContext();
   const [instantChange, setInstantChange] = useState(false);
-  const [waiting, setWaiting] = useState(false);
   const { setTheme, theme } = useTheme();
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleStart = () => {
-    const audio = new Audio("/audio/button.wav"); // Đường dẫn tới tệp âm thanh click
+    const audio = new Audio("/audio/button.wav");
+    audio.volume = 0.3;
     audio.play();
 
-    let timeoutId;
+    if (timeoutRef.current) {
+      // If there's a timeout pending, clear it and reset states
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+      setIsRunning(false);
+      setInstantChange(false);
+      return;
+    }
+
     if (!isRunning) {
-      timeoutId = setTimeout(() => {
+      // Start the waiting period and change button text to "PAUSE" immediately
+      setInstantChange(true);
+      timeoutRef.current = setTimeout(() => {
         setIsRunning(true);
         setTheme(theme === "light" ? "dark" : "light");
-      }, 1000);
+        timeoutRef.current = null;
+      }, 1500);
     } else {
-      clearTimeout(timeoutId);
+      // Stop the running timer immediately
       setIsRunning(false);
+      setInstantChange(false);
       setTheme(theme === "light" ? "dark" : "light");
     }
-    setInstantChange(!instantChange);
   };
 
   return (
