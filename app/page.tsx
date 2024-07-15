@@ -1,29 +1,49 @@
 "use client";
 
+import { getTasks } from "@/actions/get-task";
+import LoadingOverlay from "@/components/loading-overlay";
 import MainTimer from "@/components/main-timer";
 import Navbar from "@/components/navbar";
 import ProgressBar from "@/components/progress-bar";
 import { useAppContext } from "@/context";
 import { useAuth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Home() {
-  const { mainColor } = useAppContext();
+  const { mainColor, isLoading, setIsLoading, setTasks } = useAppContext();
   const { isLoaded, userId } = useAuth();
+
+  useEffect(() => {
+    async function fetchTasks() {
+      const result = await getTasks();
+      setTasks(result);
+      setIsLoading(false);
+    }
+    fetchTasks();
+  }, []);
+
+  console.log('🟢====>isLoading', isLoading);
+
 
   if (!isLoaded || !userId) {
     return redirect("/sign-in");
   }
 
   return (
-    <div className={`${mainColor} dark:bg-black min-h-screen`}>
-      <div className="m-auto w-[644px]">
-        <Navbar />
-        <ProgressBar />
-      </div>
-      <div className="m-auto w-[480px]">
-        <MainTimer />
-      </div>
-    </div>
+    <>
+      {isLoading && <LoadingOverlay />}
+      {!isLoading && (
+        <div className={`${mainColor} min-h-screen dark:bg-black`}>
+          <div className="m-auto w-[644px]">
+            <Navbar />
+            <ProgressBar />
+          </div>
+          <div className="m-auto w-[480px]">
+            <MainTimer />
+          </div>
+        </div>
+      )}
+    </>
   );
 }

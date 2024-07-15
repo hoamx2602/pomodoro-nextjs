@@ -21,11 +21,12 @@ import { cn } from "@/lib/utils";
 import { taskSchema } from "@/schemas";
 import { createTask } from "@/actions/create-task";
 import { toast } from "sonner";
+import { useAppContext } from "@/context";
 
 const TaskDialog = () => {
+  const { openDialog, setOpenDialog } = useAppContext();
   const [showNote, setShowNote] = useState(false);
   const [showProject, setShowProject] = useState(false);
-  const [openDialog, setOpenDialog] = useState(false);
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
 

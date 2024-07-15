@@ -1,26 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import { FaCheckCircle } from "react-icons/fa";
 import { BiDotsVertical } from "react-icons/bi";
-import { getTasks } from "@/actions/get-task";
-import { Task } from "@prisma/client";
+import { useAppContext } from "@/context";
 
 const TaskList = () => {
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    async function fetchTasks() {
-      setIsLoading(true);
-      const result = await getTasks();
-
-      setTasks(result);
-      setIsLoading(false);
-    }
-    fetchTasks();
-  }, []);
+  const { isLoading, tasks, setTasks, setOpenDialog } = useAppContext();
 
   const handleDragEnd = (result: any) => {
     if (!result.destination) return;
@@ -71,7 +58,7 @@ const TaskList = () => {
                           <span className="mr-4 text-[#aaaaaa]">
                             0 <span>/1</span>
                           </span>
-                          <BiDotsVertical className="h-7 w-7 rounded border-[1px] border-[#d3d3d3] text-[#858484] hover:bg-[#e2e1e1]" />
+                          <BiDotsVertical onClick={() => setOpenDialog(true)} className="h-7 w-7 rounded border-[1px] border-[#d3d3d3] text-[#858484] hover:bg-[#e2e1e1]" />
                         </div>
                       </div>
                       <div className="px-5">
