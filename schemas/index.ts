@@ -5,6 +5,6 @@ export const taskSchema = z.object({
     message: "Title must be at least 3 characters.",
   }),
   pomodoros: z.number().min(0),
-  note: z.string(),
-  project: z.string(),
+  note: z.string().default(""),
+  project: z.string().default(""),
 });

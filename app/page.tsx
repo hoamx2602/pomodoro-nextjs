@@ -1,12 +1,13 @@
 "use client";
 
-import { getTasks } from "@/actions/get-task";
+import { getTasks } from "@/actions/get-tasks";
 import LoadingOverlay from "@/components/loading-overlay";
 import MainTimer from "@/components/main-timer";
 import Navbar from "@/components/navbar";
 import ProgressBar from "@/components/progress-bar";
 import { useAppContext } from "@/context";
 import { useAuth } from "@clerk/nextjs";
+import Image from "next/image";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
 

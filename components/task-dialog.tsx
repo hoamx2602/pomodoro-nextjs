@@ -16,7 +16,7 @@ import {
 } from "./ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
 import { Input } from "./ui/input";
-import { useState } from "react";
+import { startTransition, useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { taskSchema } from "@/schemas";
 import { createTask } from "@/actions/create-task";
@@ -24,9 +24,15 @@ import { toast } from "sonner";
 import { useAppContext } from "@/context";
 
 const TaskDialog = () => {
-  const { openDialog, setOpenDialog } = useAppContext();
-  const [showNote, setShowNote] = useState(false);
-  const [showProject, setShowProject] = useState(false);
+  const {
+    openDialog,
+    setOpenDialog,
+    task,
+    showNote,
+    setShowNote,
+    showProject,
+    setShowProject,
+  } = useAppContext();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
 
@@ -34,35 +40,48 @@ const TaskDialog = () => {
     setOpenDialog(true);
   };
 
+  useEffect(() => {
+    if (task) {
+      form.reset({
+        title: task?.title || "",
+        pomodoros: 0,
+        project: task?.project || "",
+        note: task?.note || "",
+      });
+    }
+  }, [task]);
+
   const form = useForm<z.infer<typeof taskSchema>>({
     resolver: zodResolver(taskSchema),
     defaultValues: {
-      title: "",
+      title: task?.title || "",
       pomodoros: 0,
-      project: "",
-      note: "",
+      project: task?.project || "",
+      note: task?.note || "",
     },
   });
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof taskSchema>) {
-    setError("");
-    setSuccess("");
-    createTask(values)
-      .then((data) => {
-        if (data?.success) {
-          form.reset();
-          toast.success(data.success);
-          setOpenDialog(false);
-        }
+    startTransition(() => {
+      setError("");
+      setSuccess("");
+      createTask(values)
+        .then((data) => {
+          if (data?.success) {
+            form.reset();
+            toast.success(data.success);
+            setOpenDialog(false);
+          }
 
-        if (data.error) {
-          toast.error(data.error);
-        }
-      })
-      .catch(() => {
-        setError("Something went wrong");
-      });
+          if (data.error) {
+            toast.error(data.error);
+          }
+        })
+        .catch(() => {
+          setError("Something went wrong");
+        });
+    });
   }
 
   const onCloseDialog = () => {
@@ -199,21 +218,38 @@ const TaskDialog = () => {
                 </Button>
               </div>
             </div>
-            <DialogFooter className="mt-2 flex justify-end space-x-2 rounded-b-lg bg-[#EFEFEF] px-4 py-4">
+            <DialogFooter className="mt-2 flex flex-row items-center justify-between space-x-2 rounded-b-lg bg-[#EFEFEF] px-4 py-4">
               <Button
                 variant="ghost"
-                className="bg-transparent text-base text-gray-400 outline-none hover:bg-transparent hover:font-semibold hover:text-gray-500"
+                className={cn(
+                  "invisible bg-transparent text-base text-gray-400 outline-none hover:bg-transparent hover:font-semibold hover:text-gray-500",
+                  task && "visible",
+                )}
                 type="button"
                 onClick={() => {
                   form.reset();
                   onCloseDialog();
                 }}
               >
-                Cancel
+                Delete
               </Button>
-              <Button className="bg-[#222222] text-base" type="submit">
-                Save
-              </Button>
+
+              <div>
+                <Button
+                  variant="ghost"
+                  className="bg-transparent text-base text-gray-400 outline-none hover:bg-transparent hover:font-semibold hover:text-gray-500"
+                  type="button"
+                  onClick={() => {
+                    form.reset();
+                    onCloseDialog();
+                  }}
+                >
+                  Cancel
+                </Button>
+                <Button className="bg-[#222222] text-base" type="submit">
+                  Save
+                </Button>
+              </div>
             </DialogFooter>
           </form>
         </Form>

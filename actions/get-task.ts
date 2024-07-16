@@ -3,19 +3,22 @@
 import { getUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 
-export async function getTasks() {
+export async function getTask(taskId: string) {
   try {
     const user = await getUser();
 
-    const tasks = await db.task.findMany({
+    const task = await db.task.findFirst({
       where: {
         userId: user?.id,
+        id: taskId,
       },
     });
 
-    return tasks;
+    return task;
   } catch (error) {
-    console.log("🟢====>getTasks", error);
-    return []
+    console.log("🟢====>getTask", error);
+    return {
+      error: "Task not found!",
+    };
   }
 }

@@ -20,6 +20,12 @@ interface Context {
   setTasks: Dispatch<SetStateAction<Task[]>>;
   openDialog: boolean;
   setOpenDialog: Dispatch<SetStateAction<boolean>>;
+  task: Task | null,
+  setTask: Dispatch<SetStateAction<Task | null>>;
+  showNote: boolean,
+  setShowNote: Dispatch<SetStateAction<boolean>>;
+  showProject: boolean,
+  setShowProject: Dispatch<SetStateAction<boolean>>;
 }
 
 const AppContext = createContext<Context>({
@@ -36,7 +42,13 @@ const AppContext = createContext<Context>({
   tasks: [],
   setTasks: () => {},
   openDialog: false,
-  setOpenDialog: () => {}
+  setOpenDialog: () => {},
+  task: null,
+  setTask: () => {},
+  showNote: false,
+  setShowNote: () => {},
+  showProject: false,
+  setShowProject: () => {}
 });
 
 export function AppWrapper({ children }: { children: React.ReactNode }) {
@@ -46,9 +58,12 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
   );
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [task, setTask] = useState<Task | null>(null);
   const [openDialog, setOpenDialog] = useState(false);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [time, setTime] = useState<number>(900); // Default to 15 minutes
+  const [showNote, setShowNote] = useState(false);
+  const [showProject, setShowProject] = useState(false);
 
   const value = {
     mainColor,
@@ -65,6 +80,12 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
     setTasks,
     openDialog,
     setOpenDialog,
+    setTask,
+    task,
+    showNote,
+    setShowNote,
+    showProject,
+    setShowProject,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

@@ -1,13 +1,22 @@
 "use client";
 
-import React from "react";
+import React, { startTransition } from "react";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import { FaCheckCircle } from "react-icons/fa";
 import { BiDotsVertical } from "react-icons/bi";
 import { useAppContext } from "@/context";
+import { Task } from "@prisma/client";
 
 const TaskList = () => {
-  const { isLoading, tasks, setTasks, setOpenDialog } = useAppContext();
+  const {
+    isLoading,
+    tasks,
+    setTasks,
+    setOpenDialog,
+    setTask,
+    setShowProject,
+    setShowNote,
+  } = useAppContext();
 
   const handleDragEnd = (result: any) => {
     if (!result.destination) return;
@@ -22,6 +31,19 @@ const TaskList = () => {
   if (isLoading) {
     return <div>Loading...</div>;
   }
+
+  const handleEdit = (task: Task) => {
+    startTransition(() => {
+      setOpenDialog(true);
+      setTask(task);
+      if (task.project) {
+        setShowProject(true);
+      }
+      if (task.note) {
+        setShowNote(true);
+      }
+    });
+  };
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
@@ -58,7 +80,10 @@ const TaskList = () => {
                           <span className="mr-4 text-[#aaaaaa]">
                             0 <span>/1</span>
                           </span>
-                          <BiDotsVertical onClick={() => setOpenDialog(true)} className="h-7 w-7 rounded border-[1px] border-[#d3d3d3] text-[#858484] hover:bg-[#e2e1e1]" />
+                          <BiDotsVertical
+                            onClick={() => handleEdit(item)}
+                            className="h-7 w-7 rounded border-[1px] border-[#d3d3d3] text-[#858484] hover:bg-[#e2e1e1]"
+                          />
                         </div>
                       </div>
                       <div className="px-5">
