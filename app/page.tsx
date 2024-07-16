@@ -7,6 +7,7 @@ import Navbar from "@/components/navbar";
 import ProgressBar from "@/components/progress-bar";
 import { useAppContext } from "@/context";
 import { useAuth } from "@clerk/nextjs";
+import { revalidatePath } from "next/cache";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
@@ -22,10 +23,9 @@ export default function Home() {
       setIsLoading(false);
     }
     fetchTasks();
-  }, []);
+  }, [setIsLoading, setTasks]);
 
-  console.log('🟢====>isLoading', isLoading);
-
+  console.log("🟢====>isLoading", isLoading);
 
   if (!isLoaded || !userId) {
     return redirect("/sign-in");

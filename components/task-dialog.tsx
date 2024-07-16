@@ -22,6 +22,8 @@ import { taskSchema } from "@/schemas";
 import { createTask } from "@/actions/create-task";
 import { toast } from "sonner";
 import { useAppContext } from "@/context";
+import { updateTask } from "@/actions/update-task";
+import { redirect } from "next/navigation";
 
 const TaskDialog = () => {
   const {
@@ -32,6 +34,7 @@ const TaskDialog = () => {
     setShowNote,
     showProject,
     setShowProject,
+    setTasks,
   } = useAppContext();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
@@ -40,47 +43,67 @@ const TaskDialog = () => {
     setOpenDialog(true);
   };
 
+  const form = useForm<z.infer<typeof taskSchema>>({
+    resolver: zodResolver(taskSchema),
+    defaultValues: {
+      title: "",
+      pomodoros: 0,
+      project: "",
+      note: "",
+    },
+  });
+
   useEffect(() => {
     if (task) {
       form.reset({
-        title: task?.title || "",
+        title: task.title,
         pomodoros: 0,
         project: task?.project || "",
         note: task?.note || "",
       });
     }
-  }, [task]);
-
-  const form = useForm<z.infer<typeof taskSchema>>({
-    resolver: zodResolver(taskSchema),
-    defaultValues: {
-      title: task?.title || "",
-      pomodoros: 0,
-      project: task?.project || "",
-      note: task?.note || "",
-    },
-  });
+  }, [task, form]);
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof taskSchema>) {
     startTransition(() => {
       setError("");
       setSuccess("");
-      createTask(values)
-        .then((data) => {
-          if (data?.success) {
-            form.reset();
-            toast.success(data.success);
-            setOpenDialog(false);
-          }
+      if (task) {
+        updateTask(values, task.id)
+          .then((data) => {
+            if (data.success) {
+              form.reset();
+              toast.success(data.success);
+              setOpenDialog(false);
+              setTasks((prevTasks) =>
+                prevTasks.map((t) => (t.id === task.id ? { ...t, ...values } : t))
+              );
+            }
+            if (data.error) {
+              setError(data.error);
+            }
+          })
+          .catch(() => {
+            setError("Something went wrong");
+          });
+      } else {
+        createTask(values)
+          .then((data) => {
+            if (data?.success) {
+              form.reset();
+              toast.success(data.success);
+              setOpenDialog(false);
+            }
 
-          if (data.error) {
-            toast.error(data.error);
-          }
-        })
-        .catch(() => {
-          setError("Something went wrong");
-        });
+            if (data.error) {
+              toast.error(data.error);
+            }
+          })
+          .catch(() => {
+            setError("Something went wrong");
+          });
+      }
     });
   }
 

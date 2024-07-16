@@ -6,6 +6,8 @@ import { FaCheckCircle } from "react-icons/fa";
 import { BiDotsVertical } from "react-icons/bi";
 import { useAppContext } from "@/context";
 import { Task } from "@prisma/client";
+import { updateComplete } from "@/actions/set-complete";
+import { cn } from "@/lib/utils";
 
 const TaskList = () => {
   const {
@@ -45,6 +47,12 @@ const TaskList = () => {
     });
   };
 
+  const handleCompleteTask = (taskId: string, completed: boolean) => {
+    updateComplete(taskId, completed).then(data => {
+
+    })
+  }
+
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
       <Droppable droppableId="droppable">
@@ -66,8 +74,11 @@ const TaskList = () => {
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex flex-row items-center justify-between py-2">
-                          <FaCheckCircle className="mr-3 h-7 w-7 text-[#dfdfdf] hover:text-[#ebeaea]" />
-                          <span className="font-semibold text-[#555555]">
+                          <FaCheckCircle onClick={() => handleCompleteTask(item.id, item.completed)} className={cn(
+                            "mr-3 h-7 w-7 text-[#dfdfdf] hover:text-[#ebeaea]",
+                            item.completed && "text-[#ba4949]"
+                          )} />
+                          <span className="font-semibold text-[#555555] truncate max-w-[300px]">
                             {item.project && (
                               <span className="mr-2 rounded bg-[#f0f0f0] px-[6px] py-[2px] text-[13px] font-bold text-[#8a8989]">
                                 {item.project}

@@ -11,6 +11,9 @@ export async function getTasks() {
       where: {
         userId: user?.id,
       },
+      orderBy: {
+        id: 'asc'
+      }
     });
 
     return tasks;
